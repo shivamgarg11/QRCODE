@@ -1,16 +1,16 @@
 package com.shivam.qrcode;
 
+import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +27,6 @@ import com.google.zxing.common.BitMatrix;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -77,8 +76,22 @@ public class MainActivity extends AppCompatActivity {
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String path = saveImage(bitmap,createDialog());
-                Toast.makeText(MainActivity.this, "QRCode saved to -> "+path, Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED) {
+                    } else {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                    }
+                }
+
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        createDialog();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Permision IS required", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
             }
         });
 
@@ -97,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
+            File f = new File(wallpaperDirectory, Name+Calendar.getInstance().getTimeInMillis()+ ".jpg");
             f.createNewFile();   //give read write permission
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
@@ -150,8 +162,7 @@ public class MainActivity extends AppCompatActivity {
         return bitmap;
     }
 
-    public String createDialog(){
-        final String[] password = {""};
+    public void createDialog(){
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
         alertDialog.setTitle("QRCODE");
@@ -167,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        password[0] = input.getText().toString();
+                        String path = saveImage(bitmap,input.getText().toString());
+                        Toast.makeText(MainActivity.this, "QRCode saved to -> "+path, Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -181,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
         alertDialog.show();
 
-        return password[0];
     }
 
 
