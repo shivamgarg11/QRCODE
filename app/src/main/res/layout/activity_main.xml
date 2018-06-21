@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btncreateqr"
+            android:text="Create Code"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnscanqr"
+            android:text="Scan Code"
+            android:layout_marginTop="10dp"/>
+
+
+    </LinearLayout>
+
+    <EditText
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/qrcodeformer"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:hint="Enter String" />
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/qrcode"
+        android:layout_gravity="center"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            android:id="@+id/btnsave"
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+            android:layout_weight="1"/>
+
+        <Button
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            android:id="@+id/btnshare"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>
